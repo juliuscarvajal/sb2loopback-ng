@@ -1,0 +1,15 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "coatesdb": {
+    "host": "localhost",
+    "port": 3306,
+    "database": "switchboard_2_api_poc",
+    "password": "root",
+    "name": "coatesdb",
+    "user": "root",
+    "connector": "mysql"
+  }
+}

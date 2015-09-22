@@ -1,0 +1,51 @@
+<h3>Locations</h3>
+<p>
+  <button class="btn btn-default" ng-click="sync()">Sync</button>
+</p>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-condensed table-hover">
+    <thead>
+      <th>*</th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Location</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="location in Locations">
+        <td>{{location.editing}}</td>
+        <td>{{location.id}}</td>
+        <td>
+          <input type="edit" value="{{location.name}}" placeholder="{{location.name}}" ng-blur="doneEditingLocation(location)" ng-focus="editingLocation(location)" />
+        </td>
+        <td>
+          <input type="edit" ng-model="location.location" placeholder="{{location.location}}" ng-blur="doneEditingLocation(location)" ng-focus="editingLocation(location)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Channels</h3>
+<p>
+  <button class="btn btn-default" ng-click="sync()">Sync</button>
+</p>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-condensed table-hover">
+    <thead>
+      <th>ID</th>
+      <th>Name</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="channel in Channels">
+        <td>{{channel.id}}</td>
+        <td>
+          <input type="edit" value="{{channel.name}}" placeholder="{{channel.name}}" ng-blur="doneEditingChannel(channel)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Locations to Channels</h3>
