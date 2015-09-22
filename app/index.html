@@ -2,7 +2,10 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
 <head>
 
   <meta charset="utf-8">
@@ -12,11 +15,13 @@
   <meta name="viewport" content="width=device-width">
 
   <!-- build:css({.tmp,app}) styles/main.css -->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"> -->
+  <link rel="stylesheet" href="bower_components/semantic/dist/semantic.min.css">
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
 
 </head>
+
 <body ng-app="yourApp">
 
   <!--[if lt IE 9]>
@@ -33,6 +38,8 @@
   <!-- build:js scripts/modules.js -->
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-live-set/dist/live-set.min.js"></script>
+  <script src="bower_components/semantic/dist/semantic.min.js"></script>
   <!-- endbuild -->
 
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -42,4 +49,5 @@
   <!-- endbuild -->
 
 </body>
+
 </html>

@@ -1,6 +1,5 @@
 {
   "initial": {
-    "compression": {},
     "cors": {
       "params": {
         "origin": true,
