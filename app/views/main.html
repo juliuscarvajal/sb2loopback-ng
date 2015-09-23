@@ -1,8 +1,6 @@
-<h3>Locations</h3>
-<p>
-  <button class="btn btn-default" ng-click="sync()">Sync</button>
-</p>
+<h4>Connection status: {{online}}</h4>
 
+<h3>Locations</h3>
 <table class="ui very basic celled striped table">
   <thead>
     <th>*</th>
@@ -16,12 +14,12 @@
       <td>{{location.id}}</td>
       <td>
         <div class="ui fluid input">
-          <input type="edit" ng-model="location.name" placeholder="{{location.name}}" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="doneEditingLocation(location)" ng-focus="editingLocation(location)" />
+          <input type="edit" ng-model="location.name" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="doneEditingLocation(location, 'name', '{{location.name}}')" ng-focus="editingLocation(location)" />
         </div>
       </td>
       <td>
         <div class="ui fluid input">
-          <input type="edit" ng-model="location.location" placeholder="{{location.location}}" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="doneEditingLocation(location)" ng-focus="editingLocation(location)" />
+          <input type="edit" ng-model="location.location" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="doneEditingLocation(location, 'location', '{{location.location}}')" ng-focus="editingLocation(location)" />
         </div>
       </td>
     </tr>
@@ -29,9 +27,6 @@
 </table>
 
 <h3>Channels</h3>
-<p>
-  <button class="btn btn-default" ng-click="sync()">Sync</button>
-</p>
 
 <table class="ui very basic celled striped table">
   <thead>

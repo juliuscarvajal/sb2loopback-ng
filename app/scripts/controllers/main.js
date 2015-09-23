@@ -7,26 +7,37 @@ angular.module('yourApp')
     'Location',
     'createChangeStream',
     'LiveSet',
-    function ($scope, Channel, Location, createChangeStream, LiveSet) {
-      //$scope.sync = function () {};
-
+    '$window',
+    '$interval',
+    function ($scope, Channel, Location, createChangeStream, LiveSet, $window, $interval) {
       var locationsSrc = new EventSource('/api/Locations/change-stream');
       var locationsChanges = createChangeStream(locationsSrc);
+      var locations;
+
+      function getLocations() {
+        Location.find().$promise.then(function (result) {
+          locations = new LiveSet(result, locationsChanges);
+          $scope.Locations = locations.toLiveArray(); //result;
+        });
+      }
+
+      locationsSrc.onopen = function (event) {
+        $scope.online = 'online';
+        $scope.$apply();
+        getLocations();
+      };
+
+      locationsSrc.onerror = function (event) {
+        $scope.online = '[offline]';
+        $scope.$apply();
+      };
 
       var channelsSrc = new EventSource('/api/Channels/change-stream');
       var channelsChanges = createChangeStream(channelsSrc);
 
-      var locations;
+      getLocations();
       locationsChanges.on('data', function (update) {
-        console.log(update);
-        //$scope.Locations = locations.toLiveArray(); //result;
-        //$scope.$apply();
-      });
-
-      Location.find().$promise.then(function (result) {
-        locations = new LiveSet(result, locationsChanges);
-        $scope.Locations = locations.toLiveArray(); //result;
-        //$scope.Locations = result;
+        getLocations();
       });
 
       var channels;
@@ -40,17 +51,24 @@ angular.module('yourApp')
       $scope.channelSaved = false;
 
       $scope.editingLocation = function (location) {
-        //console.log('In edit mode...');
-        //location.editing = true;
-        //socket.emit('editing', location);
         return location.editing;
       };
 
-      $scope.doneEditingLocation = function (location) {
+      $scope.doneEditingLocation = function (location, field, oldval) {
+        //check blanks or unchanged values.
+        console.log(field);
+        console.log(oldval);
         console.log(location);
-        location.$save(); //TODO: if nothing was changed, don't save...
+
+        if (location[field] === '') {
+          location[field] = oldval;
+          return;
+        }
+
+        location.$save();
         location.editing = null;
-        //sync();
+
+        console.log('saved');
       };
 
       $scope.doneEditingChannel = function (channel) {
@@ -58,5 +76,4 @@ angular.module('yourApp')
         channel.$save();
         channel.editing = null;
       };
-    }
-  ]);
+        }]);
