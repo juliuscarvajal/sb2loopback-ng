@@ -10,16 +10,15 @@
   </thead>
   <tbody>
     <tr ng-repeat="location in Locations">
-      <td>{{location.editing}}</td>
       <td>{{location.id}}</td>
       <td>
         <div class="ui fluid input">
-          <input type="edit" ng-model="location.name" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="doneEditingLocation(location, 'name', '{{location.name}}')" ng-focus="editingLocation(location)" />
+          <input type="edit" id="name" ng-model="location.name" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="done(location)" />
         </div>
       </td>
       <td>
         <div class="ui fluid input">
-          <input type="edit" ng-model="location.location" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="doneEditingLocation(location, 'location', '{{location.location}}')" ng-focus="editingLocation(location)" />
+          <input type="edit" ng-model="location.location" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="done(location, 'location', '{{location.location}}')" />
         </div>
       </td>
     </tr>
@@ -38,7 +37,7 @@
       <td>{{channel.id}}</td>
       <td>
         <div class="ui fluid input">
-          <input type="edit" ng-model="channel.name" placeholder="{{channel.name}}" ng-blur="doneEditingChannel(channel)" />
+          <input type="edit" ng-model="channel.name" placeholder="{{channel.name}}" ng-blur="done(channel)" />
         </div>
       </td>
     </tr>

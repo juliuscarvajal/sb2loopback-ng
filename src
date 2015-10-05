@@ -7537,10 +7537,9 @@ angular.module('yourApp')
     'Location',
     'createChangeStream',
     'LiveSet',
-    '$window',
-    '$interval',
-    function ($scope, Channel, Location, createChangeStream, LiveSet, $window, $interval) {
-      var locationsSrc = new EventSource('/api/Locations/change-stream');
+    function ($scope, Channel, Location, createChangeStream, LiveSet) {
+
+      var locationsSrc = new EventSource('/api/Locations/change-stream?_format=event-stream');
       var locationsChanges = createChangeStream(locationsSrc);
       var locations;
 
@@ -7558,30 +7557,62 @@ angular.module('yourApp')
       };
 
       locationsSrc.onerror = function (event) {
+        console.log('locations -- eventsrc -- error');
+        console.log(event);
         $scope.online = '[offline]';
         $scope.$apply();
       };
-
-      var channelsSrc = new EventSource('/api/Channels/change-stream');
-      var channelsChanges = createChangeStream(channelsSrc);
 
       getLocations();
       locationsChanges.on('data', function (update) {
         getLocations();
       });
 
-      var channels;
-      Channel.find().$promise.then(function (result) {
-        channels = new LiveSet(result, channelsChanges);
-        $scope.Channels = channels.toLiveArray(); //result;
+      locationsChanges.on('error', function (err) {
+        console.log('channels -- changestream -- error');
+        console.log(err);
       });
 
+      /////////////////////////////////////
+      var channelsSrc = new EventSource('/api/Channels/change-stream?_format=event-stream');
+      var channelsChanges = createChangeStream(channelsSrc);
+      var channels;
+
+      function getChannels() {
+        Channel.find().$promise.then(function (result) {
+          channels = new LiveSet(result, channelsChanges);
+          $scope.Channels = channels.toLiveArray(); //result;
+        });
+      }
+
+      channelsSrc.onopen = function (event) {
+        $scope.online = 'online';
+        $scope.$apply();
+        getLocations();
+      };
+
+      channelsSrc.onerror = function (event) {
+        console.log('channels -- eventsrc -- error');
+        console.log(event);
+        $scope.online = '[offline]';
+        $scope.$apply();
+      };
+
+      getChannels();
+      channelsChanges.on('data', function (update) {
+        getChannels();
+      });
+
+      channelsChanges.on('error', function (err) {
+        console.log('locations -- changestream -- error');
+        console.log(err);
+      });
 
       $scope.locationSaved = false;
       $scope.channelSaved = false;
 
       $scope.editingLocation = function (location) {
-        return location.editing;
+        location.editing = 'true';
       };
 
       $scope.doneEditingLocation = function (location, field, oldval) {
