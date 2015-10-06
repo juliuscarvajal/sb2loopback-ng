@@ -7,7 +7,7 @@ angular.module('yourApp')
     'Location',
     'createChangeStream',
     'LiveSet',
-    function ($scope, Channel, Location, createChangeStream, LiveSet) {
+  function ($scope, Channel, Location, createChangeStream, LiveSet) {
 
       var locationsSrc = new EventSource('/api/Locations/change-stream?_format=event-stream');
       var locationsChanges = createChangeStream(locationsSrc);
@@ -90,7 +90,6 @@ angular.module('yourApp')
         console.log(field);
         console.log(oldval);
         console.log(location);
-
         if (location[field] === '') {
           location[field] = oldval;
           return;
@@ -107,4 +106,9 @@ angular.module('yourApp')
         channel.$save();
         channel.editing = null;
       };
-        }]);
+
+      $scope.totalDisplayed = 20;
+      $scope.loadMore = function () {
+        $scope.totalDisplayed += 20;
+      };
+  }]);

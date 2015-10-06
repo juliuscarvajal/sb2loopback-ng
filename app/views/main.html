@@ -3,13 +3,12 @@
 <h3>Locations</h3>
 <table class="ui very basic celled striped table">
   <thead>
-    <th>*</th>
     <th>ID</th>
     <th>Name</th>
     <th>Location</th>
   </thead>
   <tbody>
-    <tr ng-repeat="location in Locations">
+    <tr ng-repeat="location in Locations | limitTo:totalDisplayed">
       <td>{{location.id}}</td>
       <td>
         <div class="ui fluid input">
@@ -24,6 +23,7 @@
     </tr>
   </tbody>
 </table>
+<button class="ui primary button" ng-click="loadMore()">Load pa more</button>
 
 <h3>Channels</h3>
 
