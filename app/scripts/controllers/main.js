@@ -13,17 +13,16 @@ angular.module('yourApp')
       var locationsChanges = createChangeStream(locationsSrc);
       var locations;
 
-      function getLocations() {
-        Location.find().$promise.then(function (result) {
-          locations = new LiveSet(result, locationsChanges);
-          $scope.Locations = locations.toLiveArray(); //result;
-        });
-      }
+      Location.find().$promise.then(function (result) {
+        locations = new LiveSet(result, locationsChanges);
+        $scope.Locations = locations.toLiveArray(); //result;
+      });
+
+      $scope.count = Location.count();
 
       locationsSrc.onopen = function (event) {
         $scope.online = 'online';
         $scope.$apply();
-        getLocations();
       };
 
       locationsSrc.onerror = function (event) {
@@ -33,82 +32,49 @@ angular.module('yourApp')
         $scope.$apply();
       };
 
-      getLocations();
-      locationsChanges.on('data', function (update) {
-        getLocations();
-      });
-
       locationsChanges.on('error', function (err) {
         console.log('channels -- changestream -- error');
         console.log(err);
       });
 
-      /////////////////////////////////////
       var channelsSrc = new EventSource('/api/Channels/change-stream?_format=event-stream');
       var channelsChanges = createChangeStream(channelsSrc);
       var channels;
 
-      function getChannels() {
-        Channel.find().$promise.then(function (result) {
-          channels = new LiveSet(result, channelsChanges);
-          $scope.Channels = channels.toLiveArray(); //result;
-        });
-      }
-
-      channelsSrc.onopen = function (event) {
-        $scope.online = 'online';
-        $scope.$apply();
-        getLocations();
-      };
-
-      channelsSrc.onerror = function (event) {
-        console.log('channels -- eventsrc -- error');
-        console.log(event);
-        $scope.online = '[offline]';
-        $scope.$apply();
-      };
-
-      getChannels();
-      channelsChanges.on('data', function (update) {
-        getChannels();
-      });
-
-      channelsChanges.on('error', function (err) {
-        console.log('locations -- changestream -- error');
-        console.log(err);
+      Channel.find().$promise.then(function (result) {
+        channels = new LiveSet(result, channelsChanges);
+        $scope.Channels = channels.toLiveArray(); //result;
       });
 
       $scope.locationSaved = false;
       $scope.channelSaved = false;
 
-      $scope.editingLocation = function (location) {
-        location.editing = 'true';
+      function update(newval, oldval) {
+        //TODO: https://github.com/strongloop/loopback-sdk-angular/issues/125
+        //data.$save();
+        this.prototype$updateAttributes({
+          id: newval.id
+        }, newval);
+      }
+
+      var useModel = {
+        'Location': function (callback) {
+          return callback.bind(Location);
+        },
+        'Channel': function (callback) {
+          return callback.bind(Channel);
+        }
       };
 
-      $scope.done = function (location, field, oldval) {
-        //check blanks or unchanged values.
-        console.log(field);
-        console.log(oldval);
-        console.log(location);
-        if (location[field] === '') {
-          location[field] = oldval;
-          return;
-        }
-
-        location.$save();
-        location.editing = null;
+      $scope.done = function (model, newval, oldval) {
+        var callback = useModel[model](update);
+        callback(newval, oldval);
 
         console.log('saved');
       };
 
-      $scope.doneEditingChannel = function (channel) {
-        console.log(channel);
-        channel.$save();
-        channel.editing = null;
-      };
-
-      $scope.totalDisplayed = 20;
+      $scope.totalDisplayed = 5;
       $scope.loadMore = function () {
-        $scope.totalDisplayed += 20;
+        $scope.totalDisplayed += 5;
       };
   }]);

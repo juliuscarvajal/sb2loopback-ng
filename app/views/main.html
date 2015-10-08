@@ -1,6 +1,6 @@
 <h4>Connection status: {{online}}</h4>
 
-<h3>Locations</h3>
+<h3>Locations {{count}}</h3>
 <table class="ui very basic celled striped table">
   <thead>
     <th>ID</th>
@@ -12,18 +12,19 @@
       <td>{{location.id}}</td>
       <td>
         <div class="ui fluid input">
-          <input type="edit" id="name" ng-model="location.name" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="done(location)" />
+          <input type="edit" id="name" ng-model="location.name" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="done('Location', location, '{{location}}')" />
         </div>
       </td>
       <td>
         <div class="ui fluid input">
-          <input type="edit" ng-model="location.location" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="done(location, 'location', '{{location.location}}')" />
+          <input type="edit" ng-model="location.location" ng-model-options="{updateOn: 'default blur', debounce: { 'default': 1000000, 'blur': 0 } }" ng-change="done('Location', location, '{{location}}')" />
         </div>
       </td>
     </tr>
   </tbody>
 </table>
-<button class="ui primary button" ng-click="loadMore()">Load pa more</button>
+<button class="ui primary button" ng-click="loadMore()">Previous</button>
+<button class="ui primary button" ng-click="loadMore()">Next</button>
 
 <h3>Channels</h3>
 
@@ -37,7 +38,7 @@
       <td>{{channel.id}}</td>
       <td>
         <div class="ui fluid input">
-          <input type="edit" ng-model="channel.name" placeholder="{{channel.name}}" ng-blur="done(channel)" />
+          <input type="edit" ng-model="channel.name" placeholder="{{channel.name}}" ng-blur="done('Channel', channel, '{{channel}}')" />
         </div>
       </td>
     </tr>

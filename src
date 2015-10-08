@@ -7550,69 +7550,76 @@ angular.module('yourApp')
         });
       }
 
+
       locationsSrc.onopen = function (event) {
         $scope.online = 'online';
-        $scope.$apply();
-        getLocations();
+        //$scope.$apply();
+        //getLocations();
       };
 
       locationsSrc.onerror = function (event) {
         console.log('locations -- eventsrc -- error');
         console.log(event);
         $scope.online = '[offline]';
-        $scope.$apply();
+        //$scope.$apply();
       };
 
       getLocations();
-      locationsChanges.on('data', function (update) {
-        getLocations();
-      });
+      /*
+        locationsChanges.on('data', function (update) {
+          getLocations();
+        });
+        */
 
       locationsChanges.on('error', function (err) {
         console.log('channels -- changestream -- error');
         console.log(err);
       });
 
-      /////////////////////////////////////
-      var channelsSrc = new EventSource('/api/Channels/change-stream?_format=event-stream');
-      var channelsChanges = createChangeStream(channelsSrc);
-      var channels;
+      /*
+        /////////////////////////////////////
+        var channelsSrc = new EventSource('/api/Channels/change-stream?_format=event-stream');
+        var channelsChanges = createChangeStream(channelsSrc);
+        var channels;
 
-      function getChannels() {
-        Channel.find().$promise.then(function (result) {
-          channels = new LiveSet(result, channelsChanges);
-          $scope.Channels = channels.toLiveArray(); //result;
-        });
-      }
+        function getChannels() {
+          Channel.find().$promise.then(function (result) {
+            channels = new LiveSet(result, channelsChanges);
+            $scope.Channels = channels.toLiveArray(); //result;
+          });
+        }
 
-      channelsSrc.onopen = function (event) {
-        $scope.online = 'online';
-        $scope.$apply();
-        getLocations();
-      };
+        channelsSrc.onopen = function (event) {
+          $scope.online = 'online';
+          $scope.$apply();
+          getLocations();
+        };
 
-      channelsSrc.onerror = function (event) {
-        console.log('channels -- eventsrc -- error');
-        console.log(event);
-        $scope.online = '[offline]';
-        $scope.$apply();
-      };
-
-      getChannels();
-      channelsChanges.on('data', function (update) {
+        channelsSrc.onerror = function (event) {
+          console.log('channels -- eventsrc -- error');
+          console.log(event);
+          $scope.online = '[offline]';
+          //$scope.$apply();
+        };
+      dasdasdasdasdas
         getChannels();
-      });
+        channelsChanges.on('data', function (update) {
+          getChan    // when a outgoing change conflicts with an incoming change
+    // it should ignore the incoming change and after the
+    // outgoing change completes, refresh the model in questionnels();
+        });
 
-      channelsChanges.on('error', function (err) {
-        console.log('locations -- changestream -- error');
-        console.log(err);
-      });
+        channelsChanges.on('error', function (err) {
+          console.log('locations -- changestream -- error');
+          console.log(err);
+        });
+        */
 
       $scope.locationSaved = false;
       $scope.channelSaved = false;
 
       $scope.editingLocation = function (location) {
-        location.editing = 'true';
+        //location.editing = 'true';
       };
 
       $scope.done = function (location, field, oldval) {
@@ -7620,22 +7627,30 @@ angular.module('yourApp')
         console.log(field);
         console.log(oldval);
         console.log(location);
+
+        if (location === null) {
+          console.log('somehow location is null');
+          return;
+        }
+
         if (location[field] === '') {
           location[field] = oldval;
           return;
         }
 
-        location.$save();
-        location.editing = null;
+        location.save();
+        //location.editing = null;
 
         console.log('saved');
       };
 
-      $scope.doneEditingChannel = function (channel) {
-        console.log(channel);
-        channel.$save();
-        channel.editing = null;
-      };
+      /*
+        $scope.doneEditingChannel = function (channel) {
+          console.log(channel);
+          channel.$save();
+          channel.editing = null;
+        };
+        */
 
       $scope.totalDisplayed = 20;
       $scope.loadMore = function () {

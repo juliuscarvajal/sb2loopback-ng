@@ -24,7 +24,7 @@
   },
   "optionalDependencies": {},
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "^0.4.5",
     "grunt-autoprefixer": "~0.2.0",
     "grunt-concurrent": "~0.3.0",
     "grunt-contrib-clean": "~0.5.0",
@@ -87,5 +87,17 @@
     "tarball": "http://registry.npmjs.org/loopback-angular-ui-router/-/loopback-angular-ui-router-1.0.9.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/loopback-angular-ui-router/-/loopback-angular-ui-router-1.0.9.tgz"
+  "_resolved": "https://registry.npmjs.org/loopback-angular-ui-router/-/loopback-angular-ui-router-1.0.9.tgz",
+  "bundleDependencies": [
+    "compression",
+    "cors",
+    "errorhandler",
+    "event-stream",
+    "loopback",
+    "loopback-boot",
+    "loopback-connector-mysql",
+    "loopback-datasource-juggler",
+    "loopback-explorer",
+    "serve-favicon"
+  ]
 }
