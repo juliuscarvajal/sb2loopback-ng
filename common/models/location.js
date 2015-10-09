@@ -1,3 +1,1 @@
-module.exports = function (Location) {
-
-};
+module.exports = function (Location) {};

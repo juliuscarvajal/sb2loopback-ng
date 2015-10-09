@@ -34,7 +34,7 @@
       "precision": 10,
       "scale": 0,
       "mysql": {
-        "columnName": "colour_id",
+        "columnName": "colourId",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 10,
